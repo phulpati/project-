@@ -1,0 +1,85 @@
+<style>
+
+    .one{
+        color: #04211f !important;  
+        background-color: rgb(252, 209, 252); 
+        font-weight: 500; font-size: 35px; 
+         padding: 5px 20px; 
+         position: relative; 
+         left: 140px; 
+         bottom: 20px; 
+         border-radius: 50px;
+    }
+</style>
+
+{% extends 'layout.html '%}
+{% load static %}
+{% block title %}
+<title>E-commerce - My order Cart</title>
+{% endblock %}
+
+{% block main_content %}
+
+<!-- card start -->
+
+<div class="container-fluid py-5">
+    {% if items|length < 1  %}
+    <span  class="one shadow-lg"> <span style="color: rgb(126, 39, 137); ">No Any</span> Order Yet</span>
+    {%else%}
+
+    <span  class="one"> <span style="color: rgb(126, 39, 137); ">My Order Items</span>Till Now </span>
+    <div class="d-flex justify-content-center">
+        <div class="col-md-10">
+            {% for msg in messages %}
+            {% if msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS%}
+            <div class="alert alert-success">
+                {{ msg }}
+            </div>
+            {% endif %}
+            {% if msg.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+            <div class="alert alert-danger">
+                {{ msg }}
+            </div>
+            {% endif %}
+            {% endfor%}
+
+            <table class="table table-bordered table-striped table-light">
+                <thead>
+                    <tr>
+                        <th>Items Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total price</th>
+                        <th>Product Image</th>
+                        <th>Ordered Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in items %}
+                    <tr>
+                        <td>
+                            {{ i.product.product_name }}</td>
+                        <td>{{ i.product.product_price }}</td>
+                        <td>{{ i.quantity }}</td>
+                        <td>{{ i.total_price}}</td>
+
+                        <td>
+                            <img src="/{{ i.product.image }}" alt="image content" width="200px">
+                        </td>
+                        <td>{{ i.created_date }}</td>
+                        <td>
+                           {{i.status }}
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+<!-- card end -->
+{% endblock %}
